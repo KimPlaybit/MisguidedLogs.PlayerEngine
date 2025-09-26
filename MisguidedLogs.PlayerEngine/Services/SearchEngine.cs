@@ -60,7 +60,15 @@ public class PlayerEngine
         }
 
         IsUpdating = true;
-        var probability = await probabilityService.GetProbabilityValuesAsync(1035); // set in config to begin with, can't support all zones yet
+        var naxx = await probabilityService.GetProbabilityValuesAsync(1036);
+        var aq = await probabilityService.GetProbabilityValuesAsync(1035);
+        var aqr = await probabilityService.GetProbabilityValuesAsync(1031); 
+        var bwl = await probabilityService.GetProbabilityValuesAsync(1034); 
+        var zg = await probabilityService.GetProbabilityValuesAsync(1030); 
+        var mc = await probabilityService.GetProbabilityValuesAsync(1029); 
+        var ony = await probabilityService.GetProbabilityValuesAsync(1028); 
+        var bosses = naxx.Bosses.Union(aq.Bosses).Union(aqr.Bosses).Union(bwl.Bosses).Union(zg.Bosses).Union(mc.Bosses).Union(ony.Bosses).ToList();
+
         var playersInfo = await loader.TryGetStorageObject<HashSet<PlayerSearchIndex>>("misguided-logs-warcraftlogs/gold/players.json.gz");
         if (playersInfo is null)
         {
@@ -69,7 +77,7 @@ public class PlayerEngine
         foreach (var playerInfo in playersInfo)
         {
             var term = new Term("id", playerInfo.Id);
-            indexWriter.UpdateDocument(term, playerInfo.GetDocument(probability));
+            indexWriter.UpdateDocument(term, playerInfo.GetDocument(bosses));
         }
         indexWriter.Commit();
 

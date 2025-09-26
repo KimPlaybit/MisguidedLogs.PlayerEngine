@@ -20,6 +20,7 @@ public class Updater(PlayerEngine engine, BunnyCdnStorageLoader loader, ILogger<
                     log.LogInformation("New Update found");
                     dateTime = lastInfo.LastChanged;
                     await engine.UpdateAllDocuments();
+                    log.LogInformation("Update done");
                 }
 
                 // Delay for a specified time, but check for cancellation

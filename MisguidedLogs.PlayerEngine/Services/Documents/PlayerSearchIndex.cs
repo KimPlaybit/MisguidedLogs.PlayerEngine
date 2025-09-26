@@ -6,7 +6,7 @@ namespace MisguidedLogs.PlayerEngine.Services.Documents;
 
 public record PlayerSearchIndex(string Id, string Name, int Guid, Class Class, HashSet<PlayedCombinations> Combinations, HashSet<Achivement>? AchivedAchivements)
 {
-    public Document GetDocument(ProbabilityValues probability)
+    public Document GetDocument(List<BossProbability> bosses)
     {
         var doc = new Document
         {
@@ -19,7 +19,7 @@ public record PlayerSearchIndex(string Id, string Name, int Guid, Class Class, H
 
         foreach (var combination in Combinations)
         {
-            var probabilityOfCombination = probability.Bosses
+            var probabilityOfCombination = bosses
                 .FirstOrDefault(b => b.BossId == combination.BossId)?.GetProbabilityOfRole(combination.Role)
                 .FirstOrDefault(x => x.Class == Class)?.Specs
                 .FirstOrDefault(x => x.Spec == combination.Spec)?.TotalProbability ?? 0f;
