@@ -41,7 +41,7 @@ public record PlayerSearchIndex(string Id, string Name, int Guid, Class Class, H
     }
 }
 
-public record PlayedCombinations(short BossId, Role Role, TalentSpec Spec);
+public record PlayedCombinations(int BossId, Role Role, TalentSpec Spec);
 
 public record Achivement(AchivementEnum Name, int Boss, string ReportCode, DateTime AchivedAt);
 

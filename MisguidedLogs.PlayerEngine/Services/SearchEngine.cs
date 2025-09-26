@@ -21,7 +21,7 @@ public class PlayerEngine
 
     public PlayerEngine(BunnyCdnStorageLoader loader, ProbabilityService probabilityService)
     {
-        string indexPath = Path.Combine(Environment.CurrentDirectory, "playerinfo");
+        string indexPath = Path.Combine("/app/data", "playerinfo");
         indexDir = FSDirectory.Open(indexPath);
         try
         {
@@ -60,8 +60,8 @@ public class PlayerEngine
         }
 
         IsUpdating = true;
-        var probability = await probabilityService.GetProbabilityValuesAsync(2018); // set in config to begin with, can't support all zones yet
-        var playersInfo = await loader.GetStorageObject<HashSet<PlayerSearchIndex>>("misguided-logs-warcraftlogs/gold/players.json.gz");
+        var probability = await probabilityService.GetProbabilityValuesAsync(1035); // set in config to begin with, can't support all zones yet
+        var playersInfo = await loader.TryGetStorageObject<HashSet<PlayerSearchIndex>>("misguided-logs-warcraftlogs/gold/players.json.gz");
         if (playersInfo is null)
         {
             return;
